@@ -86,7 +86,7 @@ computed: {
 
   shipping() {
    if(this.premuim) {
-     return 'Free'
+     return 'Gratos' 
    }
    return 2.99;
     
