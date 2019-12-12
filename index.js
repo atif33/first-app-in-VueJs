@@ -36,9 +36,7 @@ Vue.component('product', {
 <button v-on:click="removCart">Remov cart</button>    
 
 </div>
-<div class="cart">
-      <p>Carte ({{cart}}) </p>
-  </div>
+
 </div>
   `,
   data() {
@@ -46,7 +44,7 @@ Vue.component('product', {
       product: 'Socks',
       brand: 'nabil',
       image: './assets/vmSocks-green-onWhite.jpg',
-      inStock: false,
+      inStock: true,
       details: ["coton", "cuir", "polyster"],
       variants: [{
           variantId: 1,
@@ -58,24 +56,19 @@ Vue.component('product', {
           variantColor: 'blue',
           variantImage: './assets/vmSocks-blue-onWhite.jpg'
       }
-      ],
-      cart: 0
+      ]
     }
   },
   methods: {
     addToCart: function (){
-        this.cart += 1;
+        this.$emit('add-to-cart');
     },
 
     removCart: function () {
-        this.cart -= 1;
-        if (this.cart <= 0) {
-          this.cart = 0;
-        }
+        this.$emit('remov-from-cart');
     },
 
     updatProduct: function (variantImage) {
-      console.log('totot' + variantImage);
       this.image = variantImage;
     }
 },
@@ -101,8 +94,19 @@ computed: {
 var app = new Vue({
     el: '#app',
     data: {
-      premuim: true
+      premuim: true,
+      cart: 0
     },
+    methods: {
+      updatCart() {
+         this.cart += 1;
+      },
+      removeProduct() {
+        this.cart -= 1;
+        if(this.cart <= 0) { this.cart = 0 ;}
+      }
+
+    }
      
     })
   

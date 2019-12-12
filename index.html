@@ -5,7 +5,10 @@
 <body>
 <div class="nav-bar"></div>
 <div id="app">
-  <product :premuim="premuim"></product>
+    <div class="cart">
+        <p>Carte ({{cart}}) </p>
+    </div>
+  <product :premuim="premuim" @add-to-cart="updatCart" @remov-from-cart="removeProduct"></product>
   </div> 
   
   <script src="vue.js"></script>
