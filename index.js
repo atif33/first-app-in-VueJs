@@ -88,7 +88,7 @@ computed: {
    if(this.premuim) {
      return 'Gratos' 
    }
-   return 2.99;
+   return 3.99;
     
   }
 }
