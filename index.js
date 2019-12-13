@@ -93,7 +93,7 @@ computed: {
 
 Vue.component('product-review', {
   template: `
-  <form>
+  <form class="review-form" @submit.prevent="onSubmit">
     <p>
       <label for="name"> Name: </label>
       <input id="name" v-model="name">
@@ -108,6 +108,10 @@ Vue.component('product-review', {
       <option v-for="note in notes"> {{note}} </option>
   
       </select>
+
+    </p>
+    <p>
+    <input type="submit" value="Valider">
     </p>
 </form>
   `,
@@ -117,6 +121,16 @@ Vue.component('product-review', {
       review: null,
       rating: null,
       notes: [1, 2, 3, 4, 5]
+    }
+  },
+  methods: {
+    onSubmit() {
+      let productPreview = {
+          name: this.name,
+          review: this.review,
+          rating: this.rating
+      }
+      this.name = null;
     }
   }
 })
