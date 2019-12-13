@@ -61,7 +61,7 @@ Vue.component('product', {
   },
   methods: {
     addToCart: function (){
-        this.$emit('add-to-cart');
+        this.$emit('add-to-cart', this.variants[1].variantId);
     },
 
     removCart: function () {
@@ -95,11 +95,11 @@ var app = new Vue({
     el: '#app',
     data: {
       premuim: true,
-      cart: 0
+      cart: []
     },
     methods: {
-      updatCart() {
-         this.cart += 1;
+      updatCart(id) {
+         this.cart.push(id);
       },
       removeProduct() {
         this.cart -= 1;
