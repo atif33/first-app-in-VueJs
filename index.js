@@ -34,7 +34,20 @@ Vue.component('product', {
 :disabled="!inStock"
 :class="{disabledButton : !inStock }">Add cart</button>
 <button v-on:click="removCart">Remov cart</button>    
-<product-review></product-review>
+
+<div>
+  <h2> Reviews </h2>
+    <p v-if="!reviews.length"> the are not reviews yet </p>
+  <ul>
+    <li v-for="review of reviews">
+      <p> {{review.name}} </p>
+      <p> {{review.review}} </p>
+      <p> Rating: {{review.rating}} </p>
+    </li>
+  </ul>
+</div>
+
+<product-review @review-product="sendProduct"></product-review>
 </div>
 
 
@@ -57,7 +70,8 @@ Vue.component('product', {
           variantColor: 'blue',
           variantImage: './assets/vmSocks-blue-onWhite.jpg'
       }
-      ]
+      ],
+      reviews: []
     }
   },
   methods: {
@@ -71,6 +85,11 @@ Vue.component('product', {
 
     updatProduct: function (variantImage) {
       this.image = variantImage;
+    },
+    sendProduct(productReview) {
+      console.log('herze');
+      this.reviews.push(productReview);
+
     }
 },
 computed: {
@@ -94,13 +113,20 @@ computed: {
 Vue.component('product-review', {
   template: `
   <form class="review-form" @submit.prevent="onSubmit">
+    <p v-if="errors.length">
+      <b> please corrige your form </b>
+        <ul>
+          <li v-for="error in errors"> {{error}}</li>
+        </ul>
+
+    </p>
     <p>
       <label for="name"> Name: </label>
       <input id="name" v-model="name">
     </p>
     <p>
-      <label for="review"> Reviqew: </label>
-      <textarea id="review" v-model="review"></textarea>
+      <label for="review" > Reviqew: </label>
+      <textarea id="review" v-model="review" ></textarea>
     </p>
     <p>
       <label for="rating">Rating: </label>
@@ -111,7 +137,7 @@ Vue.component('product-review', {
 
     </p>
     <p>
-    <input type="submit" value="Valider">
+    <input type="submit" value="Valider" :disabled="!(review && rating)">
     </p>
 </form>
   `,
@@ -120,20 +146,31 @@ Vue.component('product-review', {
       name: null,
       review: null,
       rating: null,
-      notes: [1, 2, 3, 4, 5]
+      notes: [1, 2, 3, 4, 5],
+      errors: []
     }
   },
   methods: {
     onSubmit() {
+      if(this.name && this.review && this.rating) {
       let productPreview = {
           name: this.name,
           review: this.review,
           rating: this.rating
       }
+      this.$emit('review-product', productPreview);
       this.name = null;
-    }
+      this.review = null;
+      this.rating = null;
+    } else {
+      if (!this.name) {this.errors.push('set name')}
+      if (!this.rating) {this.errors.push('set rating')}
+      if (!this.review) {this.errors.push('set review')}
+    
+    
+    
   }
-})
+}}})
 
 
 var app = new Vue({
