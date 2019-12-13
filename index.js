@@ -34,8 +34,9 @@ Vue.component('product', {
 :disabled="!inStock"
 :class="{disabledButton : !inStock }">Add cart</button>
 <button v-on:click="removCart">Remov cart</button>    
-
+<product-review></product-review>
 </div>
+
 
 </div>
   `,
@@ -88,6 +89,36 @@ computed: {
 
   
 
+})
+
+Vue.component('product-review', {
+  template: `
+  <form>
+    <p>
+      <label for="name"> Name: </label>
+      <input id="name" v-model="name">
+    </p>
+    <p>
+      <label for="review"> Reviqew: </label>
+      <textarea id="review" v-model="review"></textarea>
+    </p>
+    <p>
+      <label for="rating">Rating: </label>
+      <select id="rating" v-model="rating" >
+      <option v-for="note in notes"> {{note}} </option>
+  
+      </select>
+    </p>
+</form>
+  `,
+  data() {
+    return {
+      name: null,
+      review: null,
+      rating: null,
+      notes: [1, 2, 3, 4, 5]
+    }
+  }
 })
 
 
